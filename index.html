@@ -59,7 +59,25 @@
       font-weight: 500;
     }
     .attention {
-      background:#fffae1;border:1px solid #ffd700;color:#b28800;font-weight:bold;padding:8px 10px;margin:15px auto 0;max-width:360px;border-radius:9px;box-shadow:0 1px 6px #0001;font-size:.98em;
+      background: #fffbe1;
+      border: 2px solid #ffd700;
+      color: #b28800;
+      font-weight: bold;
+      padding: 12px 13px 11px 13px;
+      margin: 18px auto 5px auto;
+      max-width: 430px;
+      border-radius: 11px;
+      box-shadow: 0 2px 10px #ffd70033, 0 0 0 2px #fffbe188;
+      font-size: 1.07em;
+      line-height: 1.8;
+      z-index: 100;
+      position: relative;
+      text-align: center;
+      word-break: break-word;
+    }
+    .attention strong {
+      color: #d68900;
+      font-size: 1.05em;
     }
     .download-apps {
       margin: 24px auto 0 auto;
@@ -103,6 +121,7 @@
       filter: drop-shadow(0 0 6px #ffd70088);
     }
     @media (max-width: 600px) {
+      .attention { font-size: .97em; max-width: 97vw; }
       .vip-title { font-size:1.3em;}
       .vip-header { min-width:160px; }
       #configForm {padding: 5vw 2vw;}
@@ -112,7 +131,6 @@
       .download-apps {gap:8px;}
       .download-btn {font-size:.99em;padding:8px 12px;}
       .download-btn svg {width:22px;height:22px;}
-      .attention {max-width:98vw;}
     }
     #configForm {
       margin: 32px auto 18px;
@@ -304,8 +322,9 @@
     <div class="vip-desc">ساخت و دریافت کانفیگ ویژه و سریع WireGuard برای کاربران خاص و حرفه‌ای</div>
   </div>
   <div class="attention">
-    📱 برای دانلود فایل، لطفاً صفحه را در مرورگر اصلی (مثل Chrome یا Safari) باز کنید.<br>
-    در تلگرام: روی سه‌نقطه بالا بزنید و "Open in Browser" را انتخاب کنید.
+    📱 <strong>توجه:</strong> برای دانلود فایل، لطفاً صفحه را در مرورگر اصلی باز کنید.<br>
+    در تلگرام: روی سه‌نقطه بالا بزنید و "<strong>Open in Browser</strong>" را انتخاب کنید.<br>
+    همچنین می‌توانید با دکمه <b>کپی کانفیگ</b>، متن را مستقیماً در اپ وایرگارد پیست کنید.
   </div>
   <div class="download-apps">
     <a class="download-btn" href="https://play.google.com/store/apps/details?id=com.wireguard.android" target="_blank" rel="noopener">

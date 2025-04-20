@@ -1,18 +1,21 @@
+<!--
+  Copyright (c) 2024 vahidekhlasi
+  هرگونه کپی، انتشار یا استفاده بدون اجازه پیگرد قانونی دارد.
+  Telegram: https://t.me/vahidekhlasi
+-->
 <!DOCTYPE html>
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>ساخت فایل کانفیگ WireGuard</title>
+  <title>وایرگارد اختصاصی VIP</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Vazirmatn:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* ... (استایل‌ها دقیقا مثل نسخه قبل) ... */
     body {
       min-height: 100vh;
       margin: 0;
       padding: 0;
-      background:
-        linear-gradient(rgba(18,18,18,0.86), rgba(9,9,14,0.80)),
+      background: linear-gradient(rgba(18,18,18,0.85),rgba(9,9,14,0.85)),
         url('https://raw.githubusercontent.com/ekhlasi/permag.ir/refs/heads/master/Pubg%20wallpaper.jpeg') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Vazirmatn', 'Tahoma', 'Verdana', sans-serif;
@@ -20,60 +23,127 @@
       text-align: center;
       overflow-x: hidden;
     }
-    h2 {
-      color: #00ff95;
-      text-shadow: 0 0 10px #111, 0 0 36px #00e676;
-      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
-      font-size: 2.4em;
-      letter-spacing: 2px;
-      margin-bottom: 25px;
+    .vip-header {
       margin-top: 38px;
-      filter: drop-shadow(0 0 8px #222b);
-      background: linear-gradient(90deg,#00ffc3 20%,#00e676 70%,#ffeb3b 100%);
+      margin-bottom: 15px;
+      padding: 17px 0 9px 0;
+      background: linear-gradient(90deg,#ffd70055 0,#00ffc355 80%);
+      border-radius: 16px;
+      box-shadow: 0 0 24px #ffd70077;
+      display: inline-block;
+      min-width: 260px;
+      max-width: 92vw;
+      filter: drop-shadow(0 0 8px #ffeb3b77);
+      position: relative;
+    }
+    .vip-title {
+      font-family: 'Vazirmatn', cursive, sans-serif;
+      font-size: 2em;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      background: linear-gradient(90deg,#ffd700 0,#00ffc3 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      text-fill-color: transparent;
+      filter: brightness(1.2);
+      margin: 0;
+      text-shadow: 0 0 14px #ffd70099,0 0 30px #00ffc355;
+    }
+    .vip-desc {
+      font-family: 'Vazirmatn', cursive, sans-serif;
+      font-size: 1.07em;
+      color: #fffde7;
+      margin-top: 9px;
+      text-shadow: 0 0 6px #282d3388;
+      font-weight: 500;
+    }
+    .download-apps {
+      margin: 24px auto 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .download-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: linear-gradient(90deg,#00ffc3 0,#ffd700 100%);
+      color: #0c242b;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Vazirmatn', cursive, sans-serif;
+      font-size: 1.1em;
+      font-weight: bold;
+      padding: 11px 21px 10px 21px;
+      margin: 0 4px 0 4px;
+      box-shadow: 0 0 14px #00ffc322, 0 0 0 2px #ffd70044;
+      transition: background .15s, color .12s, transform .09s;
+      text-decoration: none;
+      letter-spacing: 1.1px;
+      cursor: pointer;
+      outline: none;
+      text-align: center;
+    }
+    .download-btn:hover {
+      background: linear-gradient(90deg,#ffd700 0,#00ffc3 100%);
+      color: #000;
+      transform: scale(1.055);
+      box-shadow: 0 3px 18px #ffd70044, 0 0 0 3px #00ffc366;
+    }
+    .download-btn svg {
+      vertical-align: middle;
+      width: 28px;
+      height: 28px;
+      filter: drop-shadow(0 0 6px #ffd70088);
+    }
+    @media (max-width: 600px) {
+      .vip-title { font-size:1.3em;}
+      .vip-header { min-width:160px; }
+      #configForm {padding: 5vw 2vw;}
+      pre {font-size:.89em;}
+      .support, .donate { font-size: .93em;}
+      .donate .cardnum {font-size:1em;}
+      .download-apps {gap:8px;}
+      .download-btn {font-size:.99em;padding:8px 12px;}
+      .download-btn svg {width:22px;height:22px;}
     }
     #configForm {
-      margin: 40px auto 20px;
+      margin: 32px auto 18px;
       display: inline-block;
-      background: rgba(30, 32, 34, 0.93);
+      background: rgba(30, 32, 34, 0.97);
       color: #e2e2e2;
-      padding: 32px 40px 24px;
-      border-radius: 22px;
-      box-shadow: 0 0 20px 3px #000d, 0 0 0 6px #00e67644;
-      border: 3px solid #00ffc399;
-      position: relative;
-      animation: floatin 1.2s cubic-bezier(.17,1.13,.59,1.05);
-      min-width: 330px;
+      padding: 22px 22px 13px;
+      border-radius: 18px;
+      box-shadow: 0 0 16px 2px #000a, 0 0 0 6px #00e67622;
+      border: 2px solid #00ffc387;
+      min-width: 320px;
       max-width: 98vw;
     }
-    @keyframes floatin {
-      0% { opacity:0; transform: translateY(60px) scale(.7);}
-      100% {opacity:1; transform: none;}
-    }
     label {
-      font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-      font-size: 1.25em;
-      letter-spacing: 1px;
+      font-size: 1.09em;
       color: #ffeb3b;
       text-shadow: 0 0 8px #000b;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
+      margin-top: 11px;
       display: block;
+      font-weight: bold;
+      letter-spacing: .4px;
     }
     select {
       background: #18231b;
       color: #fff;
-      border-radius: 7px;
+      border-radius: 6px;
       padding: 7px 12px;
       border: 2px solid #00e676;
-      margin-top: 8px;
-      margin-bottom: 18px;
-      font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-      font-size: 1.1em;
-      letter-spacing: 1px;
+      margin-top: 7px;
+      margin-bottom: 11px;
+      font-size: 1.04em;
+      letter-spacing: .5px;
       transition: border 0.18s;
-      box-shadow: 0 0 6px #00e67633;
+      box-shadow: 0 0 6px #00e67622;
     }
     select:focus {
       outline: none;
@@ -82,240 +152,199 @@
     button {
       background: linear-gradient(90deg,#00e676 0,#00ffc3 100%);
       color: #222;
-      padding: 12px 38px;
+      padding: 10px 30px;
       border: none;
-      border-radius: 10px;
-      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
-      font-size: 1.23em;
+      border-radius: 8px;
+      font-family: 'Vazirmatn', cursive, sans-serif;
+      font-size: 1.04em;
       font-weight: bold;
-      margin-top: 12px;
+      margin-top: 13px;
       cursor: pointer;
-      transition: 
-        background 0.22s, 
-        color 0.22s, 
-        box-shadow .15s,
-        transform .10s;
-      box-shadow: 0 4px 14px #00ffc344, 0 0 0 2px #ffeb3b55;
-      letter-spacing: 2px;
-      filter: drop-shadow(0 2px 10px #00ffc344);
+      transition: background 0.18s, color 0.18s, box-shadow .15s, transform .10s;
+      box-shadow: 0 4px 14px #00ffc344, 0 0 0 2px #ffeb3b33;
+      letter-spacing: 1.2px;
+      filter: drop-shadow(0 2px 10px #00ffc322);
     }
     button:hover,button:focus {
       background: linear-gradient(90deg,#ffeb3b 0,#00e676 100%);
       color: #000;
       transform: scale(1.06);
-      box-shadow: 0 2px 22px #ffeb3b55, 0 0 0 3px #00e676aa;
+      box-shadow: 0 2px 16px #ffeb3b44, 0 0 0 3px #00e67677;
     }
     #result {
-      margin-top: 32px;
-      min-height: 60px;
+      margin-top: 24px;
+      min-height: 50px;
       animation: floatin .7s;
+    }
+    @keyframes floatin {
+      0% { opacity:0; transform: translateY(35px) scale(.9);}
+      100% {opacity:1; transform: none;}
     }
     pre {
       text-align: left;
       direction: ltr;
       background: #121e18ee;
       color: #00ff95;
-      padding: 18px 13px;
-      border-radius: 14px;
-      box-shadow: 0 0 14px #222;
-      font-size: 1.06em;
-      font-family: 'Orbitron', 'Vazirmatn', monospace, cursive;
-      margin-bottom: 18px;
-      margin-top: 16px;
-      border: 2px solid #00e67677;
+      padding: 13px 9px;
+      border-radius: 11px;
+      box-shadow: 0 0 9px #222;
+      font-size: 1em;
+      font-family: 'Vazirmatn', monospace, cursive;
+      margin-bottom: 13px;
+      margin-top: 13px;
+      border: 2px solid #00e67655;
       overflow-x: auto;
       line-height: 1.7;
       word-break: break-all;
       user-select: text;
-      transition: box-shadow 0.25s;
+      transition: box-shadow 0.2s;
     }
     #dlbtn {
       display: inline-block;
-      animation: pulse 2.6s infinite;
       background: linear-gradient(90deg,#00ffc3 0,#ffeb3b 100%);
       color: #111;
       border: none;
-      border-radius: 10px;
-      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
-      font-size: 1.08em;
-      padding: 10px 33px;
+      border-radius: 8px;
+      font-family: 'Vazirmatn', cursive, sans-serif;
+      font-size: 1em;
+      padding: 8px 22px;
       margin-bottom: 6px;
       cursor: pointer;
       font-weight: bold;
-      box-shadow: 0 0 16px #00e67666,0 0 0 2px #ffeb3b44;
-      transition: background 0.16s, transform .12s;
-      letter-spacing: 1.4px;
+      box-shadow: 0 0 8px #00e67644,0 0 0 2px #ffeb3b33;
+      letter-spacing: 1.1px;
+      margin-top: 3px;
+      transition: background 0.13s, transform .08s;
     }
     #dlbtn:hover {
       background: linear-gradient(90deg,#ffeb3b 0,#00ffc3 100%);
       color: #000;
-      transform: scale(1.07);
-      box-shadow: 0 0 22px #ffeb3b66,0 0 0 3px #00e67688;
-    }
-    @keyframes pulse {
-      0%{box-shadow:0 0 20px #00ffc344;}
-      50%{box-shadow:0 0 35px #ffeb3b55;}
-      100%{box-shadow:0 0 20px #00ffc344;}
+      transform: scale(1.04);
+      box-shadow: 0 0 11px #ffeb3b44,0 0 0 3px #00e67666;
     }
     .support {
-      margin-top: 40px;
+      margin-top: 24px;
       font-weight: bold;
       background: rgba(30,30,30,0.80);
       display: inline-block;
-      padding: 13px 28px;
-      border-radius: 12px;
+      padding: 8px 19px;
+      border-radius: 11px;
       color: #00e676;
-      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
-      font-size: 1.07em;
-      letter-spacing: 1.2px;
-      box-shadow: 0 0 10px #00e67644;
-      border: 2px solid #00ffc399;
-      margin-bottom: 18px;
+      font-size: 1em;
+      letter-spacing: 1px;
+      box-shadow: 0 0 7px #00e67633;
+      border: 2px solid #00ffc366;
+      margin-bottom: 15px;
     }
     .support a {
       color: #ffeb3b;
       text-decoration: none;
       font-weight: bold;
-      font-family: inherit;
       text-shadow: 0 0 6px #00e67677;
-      transition: color .18s;
+      transition: color .16s;
     }
     .support a:hover {
       color: #00ffc3;
     }
     .donate {
-      margin: 18px auto 48px auto;
+      margin: 12px auto 32px auto;
       display: inline-block;
-      background: rgba(0, 30, 36, 0.80);
+      background: rgba(0,30,36,0.80);
       color: #ffe066;
       font-weight: bold;
-      font-family: 'Vazirmatn', 'Tahoma', cursive, sans-serif;
-      font-size: 1.08em;
+      font-size: 1em;
       letter-spacing: 1.1px;
-      padding: 14px 30px 10px 30px;
-      border-radius: 13px;
-      border: 2px solid #ffe066aa;
-      box-shadow: 0 0 12px #ffe06633;
+      padding: 10px 25px 7px 25px;
+      border-radius: 11px;
+      border: 2px solid #ffe06699;
+      box-shadow: 0 0 10px #ffe06622;
       text-align: center;
       line-height: 2;
     }
     .donate .cardnum {
       display: block;
-      font-size: 1.29em;
-      font-family: 'Orbitron',monospace;
+      font-size: 1.11em;
       color: #fff;
       background: #222d;
-      padding: 7px 18px 6px 18px;
-      border-radius: 7px;
+      padding: 6px 13px 5px 13px;
+      border-radius: 6px;
       margin: 8px 0 0 0;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       direction: ltr;
       text-align: center;
       user-select: all;
     }
     .donate .copybtn {
-      margin-top: 10px;
+      margin-top: 8px;
       background: linear-gradient(90deg,#ffe066 0,#00e676 100%);
       color: #222;
-      font-family: 'Vazirmatn', 'Orbitron', sans-serif;
-      font-size: 1em;
+      font-size: .96em;
       border: none;
-      border-radius: 7px;
-      padding: 7px 20px;
+      border-radius: 6px;
+      padding: 5px 16px;
       cursor: pointer;
       font-weight: bold;
-      letter-spacing: 1.1px;
-      transition: background .18s, color .18s;
-      box-shadow: 0 0 8px #ffe06666;
+      letter-spacing: 1px;
+      transition: background .16s, color .16s;
+      box-shadow: 0 0 6px #ffe06644;
     }
     .donate .copybtn:hover {
       background: linear-gradient(90deg,#00e676 0,#ffe066 100%);
       color: #000;
     }
-    .mtu-test {
-      margin-bottom: 20px;
-      font-size: 1.01em;
-      background: #0c1614aa;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
-      border-radius: 8px;
-      padding: 7px 15px 7px 15px;
-      border: 1px solid #00ffc366;
-      box-shadow: 0 0 8px #00ffc344;
-      max-width: 420px;
-      margin-right: auto;
-      margin-left: auto;
-      font-family: 'Vazirmatn', 'Tahoma', sans-serif;
-    }
-    .mtu-test button {
-      padding: 7px 18px;
-      font-size: 1em;
-      margin: 0 8px;
-      border-radius: 5px;
-      background: linear-gradient(90deg,#00e676 0,#ffeb3b 100%);
-      color: #222;
-      border: none;
-      font-family: inherit;
-      font-weight: bold;
-      letter-spacing: 1.1px;
-      cursor: pointer;
-      transition: background .13s;
-      box-shadow: 0 0 4px #00ffc344;
-    }
-    .mtu-test button:hover {
-      background: linear-gradient(90deg,#ffeb3b 0,#00e676 100%);
-      color: #000;
-    }
-    .mtu-test .mtu-show {
-      font-weight: bold;
-      color: #00ffc3;
-      font-size: 1.11em;
-      margin-right: 14px;
-      letter-spacing: 1.2px;
-      font-family: inherit;
-    }
-    @media (max-width: 600px) {
-      #configForm {padding: 9vw 2vw;}
-      h2 {font-size:1.4em;}
-      pre {font-size:.98em;}
-      .support, .donate, .mtu-test { font-size: .99em;}
-      .donate .cardnum {font-size:1.12em;}
-      .mtu-test {flex-direction:column;align-items:flex-start;gap:2px;}
-    }
   </style>
 </head>
 <body>
-  <h2>ساخت فایل کانفیگ WireGuard</h2>
+  <div class="vip-header">
+    <div class="vip-title">وایرگارد اختصاصی VIP</div>
+    <div class="vip-desc">ساخت و دریافت کانفیگ ویژه و سریع WireGuard برای کاربران خاص و حرفه‌ای</div>
+  </div>
+  <div class="download-apps">
+    <a class="download-btn" href="https://play.google.com/store/apps/details?id=com.wireguard.android" target="_blank" rel="noopener">
+      <svg viewBox="0 0 48 48"><g><circle cx="24" cy="24" r="24" fill="#3ddc84"/><path d="M12 35.7l19.1-8.9 4.1 1.7-18.7 8.8zm26.6-4.6c-.3-.4-.8-.7-1.2-.8l-5.5-2.3-4.9 2.3c-.4.2-.9.2-1.3 0l-2.1-1 13.7-6.5c.3-.2.4-.6.3-.9-.1-.3-.4-.5-.7-.6l-5.5-2.3-8.8 4.2c-.4.2-.9.2-1.3 0l-2.1-1 16.8-7.9c.3-.2.4-.6.3-.9-.1-.3-.4-.5-.7-.6l-19.3-8.2c-.4-.2-.9 0-1.1.4-.2.4 0 .9.4 1.1l2.1.8 5.5 2.2 8.8-4.2c.4-.2.9-.2 1.3 0l2.1 1-13.7 6.5c-.3.2-.4.6-.3.9.1.3.4.5.7.6l5.5 2.3 8.8-4.2c.4-.2.9-.2 1.3 0l2.1 1-16.8 7.9c-.3.2-.4.6-.3.9.1.3.4.5.7.6l19.3 8.2c.4.2.9 0 1.1-.4.2-.4 0-.9-.4-1.1z" fill="#fff"/></g></svg>
+      دانلود وایرگارد اندروید
+    </a>
+    <a class="download-btn" href="https://apps.apple.com/app/wireguard/id1441195209" target="_blank" rel="noopener">
+      <svg viewBox="0 0 48 48"><g><circle cx="24" cy="24" r="24" fill="#555"/><path d="M31.13 25.71c.01-3.18 2.59-4.7 2.7-4.77-1.47-2.15-3.75-2.45-4.56-2.48-1.94-.2-3.77 1.14-4.75 1.14-.98 0-2.48-1.12-4.08-1.09-2.09.03-4.04 1.22-5.12 3.09-2.19 3.79-.56 9.38 1.57 12.46 1.05 1.51 2.28 3.21 3.89 3.15 1.56-.06 2.16-1.01 4.05-1.01 1.89 0 2.43 1.01 4.08.97 1.69-.03 2.75-1.53 3.77-3.06 1.2-1.71 1.7-3.37 1.72-3.46-.04-.02-3.28-1.26-3.3-5.01zm-3.83-9.16c.86-1.04 1.44-2.5 1.28-3.95-1.24.05-2.75.83-3.65 1.87-.8.91-1.51 2.39-1.24 3.8 1.37.11 2.74-.7 3.61-1.72z" fill="#fff"/></g></svg>
+      دانلود وایرگارد آیفون/آیپد
+    </a>
+  </div>
   <form id="configForm">
     <label for="country">انتخاب کشور:</label>
     <select id="country" name="country" required>
       <option value="">-- کشور را انتخاب کنید --</option>
-      <option value="UAE">امارات (UAE)</option>
-      <option value="Bahrain">بحرین (Bahrain)</option>
-      <option value="Qatar">قطر (Qatar)</option>
-      <option value="Germany">آلمان (Germany)</option>
-      <option value="Brazil">برزیل (Brazil)</option>
-      <option value="Russia">روسیه (Russia)</option>
-      <option value="Iran">ایران (Iran)</option>
-      <option value="USA">آمریکا (USA)</option>
-      <option value="Belgium">بلژیک (Belgium)</option>
+      <option value="UAE">امارات</option>
+      <option value="Bahrain">بحرین</option>
+      <option value="Qatar">قطر</option>
+      <option value="Germany">آلمان</option>
+      <option value="Brazil">برزیل</option>
+      <option value="Russia">روسیه</option>
+      <option value="Iran">ایران</option>
+      <option value="USA">آمریکا</option>
+      <option value="Belgium">بلژیک</option>
     </select>
-    <label for="mtu">انتخاب MTU:</label>
-    <div class="mtu-test">
-      <span>تست سرعت و دریافت MTU پیشنهادی:</span>
-      <button type="button" id="mtuTestBtn">تست سرعت</button>
-      <span class="mtu-show" id="mtuSuggest"></span>
-    </div>
-    <select id="mtu" name="mtu">
+    <label for="mtuType">نوع شبکه (برای انتخاب MTU مناسب):</label>
+    <select id="mtuType" name="mtuType">
       <option value="auto">خودکار (پیشنهادی)</option>
-      <option value="1280">1280</option>
-      <option value="1380">1380</option>
-      <option value="1472">1472</option>
+      <option value="mci">همراه اول (4G/5G)</option>
+      <option value="mtn">ایرانسل (4G/5G)</option>
+      <option value="wifi">وای فای (خانگی)</option>
+      <option value="manual">انتخاب دستی</option>
     </select>
-    <br><br>
+    <div id="manualMtuDiv" style="display:none;">
+      <label for="mtu">انتخاب MTU دستی:</label>
+      <select id="mtu" name="mtu">
+        <option value="1280">1280</option>
+        <option value="1350">1350</option>
+        <option value="1380">1380</option>
+        <option value="1400">1400</option>
+        <option value="1450">1450</option>
+        <option value="1452">1452</option>
+        <option value="1472">1472</option>
+        <option value="1500">1500</option>
+      </select>
+    </div>
+    <br>
     <button type="submit">ساخت و دانلود کانفیگ</button>
   </form>
   <div id="result"></div>
@@ -327,220 +356,42 @@
     <span class="cardnum" id="cardnum">6037&nbsp;9974&nbsp;6624&nbsp;8136</span>
     <button class="copybtn" onclick="copyCardNum()">کپی شماره کارت</button>
   </div>
+  <!-- اسکریپت محافظت‌شده و مبهم‌شده -->
   <script>
-    const ipRanges = {
-      "UAE": [
-        ["94.200.0.0", "94.200.255.255"],
-        ["213.42.0.0", "213.42.255.255"]
-      ],
-      "Bahrain": [
-        ["37.131.0.0", "37.131.255.255"],
-        ["188.221.0.0", "188.221.255.255"]
-      ],
-      "Qatar": [
-        ["78.100.0.0", "78.100.255.255"],
-        ["212.77.192.0", "212.77.223.255"]
-      ],
-      "Germany": [
-        ["80.128.0.0", "80.128.255.255"],
-        ["91.0.0.0", "91.15.255.255"],
-        ["217.0.0.0", "217.23.255.255"]
-      ],
-      "Brazil": [
-        ["200.128.0.0", "200.135.255.255"],
-        ["201.6.0.0", "201.6.255.255"],
-        ["177.0.0.0", "177.255.255.255"]
-      ],
-      "Russia": [
-        ["5.128.0.0", "5.191.255.255"],
-        ["37.192.0.0", "37.255.255.255"],
-        ["62.16.0.0", "62.31.255.255"]
-      ],
-      "Iran": [
-        ["5.52.0.0", "5.55.255.255"],
-        ["37.32.0.0", "37.63.255.255"],
-        ["46.224.0.0", "46.239.255.255"]
-      ],
-      "USA": [
-        ["3.0.0.0", "3.255.255.255"],
-        ["4.0.0.0", "4.255.255.255"],
-        ["8.0.0.0", "8.255.255.255"]
-      ],
-      "Belgium": [
-        ["57.0.0.0", "57.255.255.255"],
-        ["78.20.0.0", "78.23.255.255"],
-        ["94.182.0.0", "94.182.255.255"]
-      ]
-    };
-    function ipToInt(ip) {
-      return ip.split('.').reduce((acc, octet) => acc * 256 + parseInt(octet), 0);
-    }
-    function intToIp(int) {
-      return [24,16,8,0].map(shift => (int >> shift) & 255).join('.');
-    }
-    function randomIpFromRange([start, end]) {
-      const startInt = ipToInt(start);
-      const endInt = ipToInt(end);
-      const randInt = startInt + Math.floor(Math.random() * (endInt - startInt + 1));
-      return intToIp(randInt);
-    }
-    function randomCountryIp(country) {
-      const ranges = ipRanges[country];
-      const selected = ranges[Math.floor(Math.random() * ranges.length)];
-      return randomIpFromRange(selected);
-    }
-    function randomBase64(len = 32) {
-      const arr = new Uint8Array(len);
-      window.crypto.getRandomValues(arr);
-      return btoa(String.fromCharCode.apply(null, arr));
-    }
-    function generateDnsList(n = 7) {
-      let out = [];
-      for(let i = 0; i < n; ++i)
-        out.push(`${Math.floor(Math.random()*255)+1}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*254)+1}`);
-      return out.join(', ');
-    }
-    function getRandomMainDns() {
-      const dnsOptions = ['10.202.10.10', '78.157.42.100'];
-      return dnsOptions[Math.floor(Math.random() * dnsOptions.length)];
-    }
-    function getRandomMtu() {
-      const mtuList = [1280, 1380, 1472];
-      return mtuList[Math.floor(Math.random() * mtuList.length)];
-    }
-    function generateConfig(country, mtuChoice) {
-      const privateKey = randomBase64();
-      const publicKey = randomBase64();
-      const presharedKey = randomBase64();
-      const address = randomCountryIp(country);
-      const dnsList = generateDnsList();
-      const mainDns = getRandomMainDns();
-      let mtu;
-      if (mtuChoice === "auto") {
-        mtu = getRandomMtu();
-      } else {
-        mtu = mtuChoice;
-      }
-      const endpointIp = randomCountryIp(country);
-      const endpointPort = Math.floor(Math.random()*55000)+10000;
-      return `[Interface]
-PrivateKey = ${privateKey}
-Address = ${address}/24
-DNS = ${mainDns}, ${dnsList}
-MTU = ${mtu}
-
-[Peer]
-PublicKey = ${publicKey}
-PresharedKey = ${presharedKey}
-Endpoint = ${endpointIp}:${endpointPort}
-PersistentKeepalive = 47
-`;
-    }
-    function downloadConfig(config, filename) {
-      let safeName = filename.replace(/\.conf(\..*)?$/, ".conf");
-      if(!safeName.endsWith('.conf')) safeName += ".conf";
-      const blob = new Blob([config], {type: 'application/octet-stream'});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = safeName;
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-        link.remove();
-      }, 100);
-    }
-    document.getElementById('configForm').onsubmit = function(e) {
-      e.preventDefault();
-      const country = document.getElementById('country').value;
-      const mtuChoice = document.getElementById('mtu').value;
-      if(!country){
-        alert('لطفا کشور را انتخاب کنید!');
-        return;
-      }
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = "در حال ساخت ...";
-      setTimeout(()=>{
-        const config = generateConfig(country, mtuChoice);
-        const filename = `wg_${country.toLowerCase()}_${Math.floor(Math.random()*90000+10000)}.conf`;
-        resultDiv.innerHTML = `
-          <pre>${config}</pre>
-          <button id="dlbtn">دانلود فایل کانفیگ</button>
-        `;
-        document.getElementById('dlbtn').onclick = ()=>downloadConfig(config, filename);
-      }, 700);
-    };
-
-    // Copy card number to clipboard
-    function copyCardNum() {
-      const card = "6037997466248136";
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(card).then(function() {
-          alert("شماره کارت کپی شد!");
-        }, function() {
-          fallbackCopy(card);
-        });
-      } else {
-        fallbackCopy(card);
-      }
-    }
-    function fallbackCopy(text) {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        alert("شماره کارت کپی شد!");
-      } catch(e) {
-        alert("کپی نشد. دستی کپی کنید.");
-      }
-      document.body.removeChild(textarea);
-    }
-
-    // MTU Test - improved and CORS-safe for GitHub Pages
-    document.getElementById('mtuTestBtn').onclick = async function() {
-      const mtuSuggest = document.getElementById('mtuSuggest');
-      mtuSuggest.textContent = "در حال تست سرعت...";
-      const testFiles = [
-        {url: "https://speed.hetzner.de/1MB.bin?t="+Math.random(), size: 1048576},
-        {url: "https://ipv4.download.thinkbroadband.com/512KB.zip?t="+Math.random(), size: 524288}
-      ];
-      let totalSize = 0, totalTime = 0, ok = 0;
-      for (let f of testFiles) {
-        try {
-          const t0 = Date.now();
-          const resp = await fetch(f.url, {cache:'no-store'});
-          const blob = await resp.blob();
-          if (blob.size < f.size*0.7) continue; // فایل باید کامل باشد
-          const t1 = Date.now();
-          totalSize += f.size; // حجم فایل تستی
-          totalTime += (t1-t0)/1000.0;
-          ok++;
-        } catch (e) {
-          // فایل تست کار نکرد، ادامه
-        }
-      }
-      if (ok === 0) {
-        mtuSuggest.textContent = "تست سرعت انجام نشد. اتصال اینترنت یا VPN را بررسی کنید.";
-        return;
-      }
-      const downloadMbps = (totalSize * 8) / (totalTime * 1e6);
-      let mtuMsg, mtuVal;
-      if (downloadMbps < 5) {
-        mtuMsg = "MTU پیشنهادی: 1280 (اینترنت کم‌سرعت)";
-        mtuVal = "1280";
-      } else if (downloadMbps < 30) {
-        mtuMsg = "MTU پیشنهادی: 1380 (اینترنت متوسط)";
-        mtuVal = "1380";
-      } else {
-        mtuMsg = "MTU پیشنهادی: 1472 (اینترنت پرسرعت)";
-        mtuVal = "1472";
-      }
-      mtuSuggest.textContent = `↓ سرعت دانلود: ${downloadMbps.toFixed(1)} Mbps، ${mtuMsg}`;
-      document.getElementById('mtu').value = mtuVal;
-    };
+  (function(){
+    function x(e){return e.split('.').reduce(function(f,g){return f*256+parseInt(g)},0)}
+    function y(e){return[24,16,8,0].map(function(f){return(e>>f)&255}).join('.')}
+    function z(q){var r=ipRanges[q],s=r[Math.floor(Math.random()*r.length)],a=x(s[0]),b=x(s[1]),c=a+Math.floor(Math.random()*(b-a+1));return y(c)}
+    function b64(l){var arr=new Uint8Array(l);window.crypto.getRandomValues(arr);return btoa(String.fromCharCode.apply(null,arr))}
+    function dnsList(n){for(var o=[],i=0;i<n;++i)o.push((Math.floor(Math.random()*255)+1)+"."+(Math.floor(Math.random()*256))+"."+(Math.floor(Math.random()*256))+"."+(Math.floor(Math.random()*254)+1));return o.join(", ")}
+    function mainDns(){var d=['10.202.10.10','78.157.42.100'];return d[Math.floor(Math.random()*d.length)]}
+    function randMtu(){var a=[1280,1350,1380,1400,1450,1452,1472,1500];return a[Math.floor(Math.random()*a.length)]}
+    function profMtu(k){var a=mtuProfiles[k];return a[Math.floor(Math.random()*a.length)]}
+    function genConf(c,m,t){var pk=b64(32),pub=b64(32),psk=b64(32),addr=z(c),dns=dnsList(7),mdns=mainDns(),mtu;if(m==="auto")mtu=randMtu();else if(m==="manual")mtu=t;else if(mtuProfiles[m])mtu=profMtu(m);else mtu=randMtu();var ep=z(c),port=Math.floor(Math.random()*55000)+10000;return "[Interface]\nPrivateKey = "+pk+"\nAddress = "+addr+"/24\nDNS = "+mdns+", "+dns+"\nMTU = "+mtu+"\n\n[Peer]\nPublicKey = "+pub+"\nPresharedKey = "+psk+"\nEndpoint = "+ep+":"+port+"\nPersistentKeepalive = 47\n"}
+    var ipRanges={"UAE":[["94.200.0.0","94.200.255.255"],["213.42.0.0","213.42.255.255"]],"Bahrain":[["37.131.0.0","37.131.255.255"],["188.221.0.0","188.221.255.255"]],"Qatar":[["78.100.0.0","78.100.255.255"],["212.77.192.0","212.77.223.255"]],"Germany":[["80.128.0.0","80.128.255.255"],["91.0.0.0","91.15.255.255"],["217.0.0.0","217.23.255.255"]],"Brazil":[["200.128.0.0","200.135.255.255"],["201.6.0.0","201.6.255.255"],["177.0.0.0","177.255.255.255"]],"Russia":[["5.128.0.0","5.191.255.255"],["37.192.0.0","37.255.255.255"],["62.16.0.0","62.31.255.255"]],"Iran":[["5.52.0.0","5.55.255.255"],["37.32.0.0","37.63.255.255"],["46.224.0.0","46.239.255.255"]],"USA":[["3.0.0.0","3.255.255.255"],["4.0.0.0","4.255.255.255"],["8.0.0.0","8.255.255.255"]],"Belgium":[["57.0.0.0","57.255.255.255"],["78.20.0.0","78.23.255.255"],["94.182.0.0","94.182.255.255"]]};
+    var mtuProfiles={mci:[1452,1400,1280,1350],mtn:[1452,1400,1350],wifi:[1500,1450,1400]};
+    document.getElementById('mtuType').onchange=function(){var v=this.value,d=document.getElementById('manualMtuDiv');d.style.display=(v==="manual")?"block":"none"}
+    document.getElementById('configForm').onsubmit=function(e){e.preventDefault();var c=document.getElementById('country').value,m=document.getElementById('mtuType').value,t=document.getElementById('mtu')?document.getElementById('mtu').value:"";if(!c){alert('لطفا کشور را انتخاب کنید!');return}var r=document.getElementById('result');r.innerHTML="در حال ساخت ...";setTimeout(function(){var g=genConf(c,m,t),f="wg_"+c.toLowerCase()+"_"+(Math.floor(Math.random()*90000+10000))+".conf";r.innerHTML='<pre>'+g+'</pre><button id="dlbtn">دانلود فایل کانفیگ</button>';document.getElementById('dlbtn').onclick=function(){var s=f.replace(/\.conf(\..*)?$/, ".conf");if(!s.endsWith('.conf'))s+=".conf";var b=new Blob([g],{type:'application/octet-stream'}),u=URL.createObjectURL(b),l=document.createElement('a');l.href=u;l.download=s;document.body.appendChild(l);l.click();setTimeout(function(){URL.revokeObjectURL(u);l.remove()},100)}} ,700)}
+    window.copyCardNum=function(){var c="6037997466248136";if(navigator.clipboard){navigator.clipboard.writeText(c).then(function(){alert("شماره کارت کپی شد!")},function(){fc(c)})}else{fc(c)}}
+    function fc(t){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');alert("شماره کارت کپی شد!")}catch(e){alert("کپی نشد. دستی کپی کنید.")}document.body.removeChild(ta)}
+  })();
   </script>
+  <!--
+    ----------------------------------------------------------------------
+    Copyright (c) 2024 vahidekhlasi
+
+    تمامی حقوق این پروژه متعلق به vahidekhlasi است.
+    کپی، انتشار و استفاده تجاری یا غیرتجاری، جز با اجازه کتبی صاحب اثر، مجاز نیست.
+
+    This software and content is proprietary and confidential.
+    You may NOT copy, modify, distribute, or use any part of this code or its assets
+    for any purpose, commercial or non-commercial, without explicit written permission from the author (vahidekhlasi).
+
+    Unauthorized copying, modification, or distribution is strictly prohibited and may lead to legal action.
+
+    سوال یا درخواست مجوز:
+    https://t.me/vahidekhlasi
+    ----------------------------------------------------------------------
+  -->
 </body>
 </html>

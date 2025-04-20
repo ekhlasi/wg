@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>ساخت فایل کانفیگ WireGuard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Vazirmatn:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* ... (استایل‌ها دقیقا مثل نسخه قبل) ... */
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background:
+        linear-gradient(rgba(18,18,18,0.86), rgba(9,9,14,0.80)),
+        url('https://raw.githubusercontent.com/ekhlasi/permag.ir/refs/heads/master/Pubg%20wallpaper.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Vazirmatn', 'Tahoma', 'Verdana', sans-serif;
+      direction: rtl;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    h2 {
+      color: #00ff95;
+      text-shadow: 0 0 10px #111, 0 0 36px #00e676;
+      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
+      font-size: 2.4em;
+      letter-spacing: 2px;
+      margin-bottom: 25px;
+      margin-top: 38px;
+      filter: drop-shadow(0 0 8px #222b);
+      background: linear-gradient(90deg,#00ffc3 20%,#00e676 70%,#ffeb3b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    #configForm {
+      margin: 40px auto 20px;
+      display: inline-block;
+      background: rgba(30, 32, 34, 0.93);
+      color: #e2e2e2;
+      padding: 32px 40px 24px;
+      border-radius: 22px;
+      box-shadow: 0 0 20px 3px #000d, 0 0 0 6px #00e67644;
+      border: 3px solid #00ffc399;
+      position: relative;
+      animation: floatin 1.2s cubic-bezier(.17,1.13,.59,1.05);
+      min-width: 330px;
+      max-width: 98vw;
+    }
+    @keyframes floatin {
+      0% { opacity:0; transform: translateY(60px) scale(.7);}
+      100% {opacity:1; transform: none;}
+    }
+    label {
+      font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+      font-size: 1.25em;
+      letter-spacing: 1px;
+      color: #ffeb3b;
+      text-shadow: 0 0 8px #000b;
+      margin-bottom: 6px;
+      display: block;
+    }
+    select {
+      background: #18231b;
+      color: #fff;
+      border-radius: 7px;
+      padding: 7px 12px;
+      border: 2px solid #00e676;
+      margin-top: 8px;
+      margin-bottom: 18px;
+      font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+      font-size: 1.1em;
+      letter-spacing: 1px;
+      transition: border 0.18s;
+      box-shadow: 0 0 6px #00e67633;
+    }
+    select:focus {
+      outline: none;
+      border: 2px solid #ffeb3b;
+    }
+    button {
+      background: linear-gradient(90deg,#00e676 0,#00ffc3 100%);
+      color: #222;
+      padding: 12px 38px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
+      font-size: 1.23em;
+      font-weight: bold;
+      margin-top: 12px;
+      cursor: pointer;
+      transition: 
+        background 0.22s, 
+        color 0.22s, 
+        box-shadow .15s,
+        transform .10s;
+      box-shadow: 0 4px 14px #00ffc344, 0 0 0 2px #ffeb3b55;
+      letter-spacing: 2px;
+      filter: drop-shadow(0 2px 10px #00ffc344);
+    }
+    button:hover,button:focus {
+      background: linear-gradient(90deg,#ffeb3b 0,#00e676 100%);
+      color: #000;
+      transform: scale(1.06);
+      box-shadow: 0 2px 22px #ffeb3b55, 0 0 0 3px #00e676aa;
+    }
+    #result {
+      margin-top: 32px;
+      min-height: 60px;
+      animation: floatin .7s;
+    }
+    pre {
+      text-align: left;
+      direction: ltr;
+      background: #121e18ee;
+      color: #00ff95;
+      padding: 18px 13px;
+      border-radius: 14px;
+      box-shadow: 0 0 14px #222;
+      font-size: 1.06em;
+      font-family: 'Orbitron', 'Vazirmatn', monospace, cursive;
+      margin-bottom: 18px;
+      margin-top: 16px;
+      border: 2px solid #00e67677;
+      overflow-x: auto;
+      line-height: 1.7;
+      word-break: break-all;
+      user-select: text;
+      transition: box-shadow 0.25s;
+    }
+    #dlbtn {
+      display: inline-block;
+      animation: pulse 2.6s infinite;
+      background: linear-gradient(90deg,#00ffc3 0,#ffeb3b 100%);
+      color: #111;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
+      font-size: 1.08em;
+      padding: 10px 33px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 0 16px #00e67666,0 0 0 2px #ffeb3b44;
+      transition: background 0.16s, transform .12s;
+      letter-spacing: 1.4px;
+    }
+    #dlbtn:hover {
+      background: linear-gradient(90deg,#ffeb3b 0,#00ffc3 100%);
+      color: #000;
+      transform: scale(1.07);
+      box-shadow: 0 0 22px #ffeb3b66,0 0 0 3px #00e67688;
+    }
+    @keyframes pulse {
+      0%{box-shadow:0 0 20px #00ffc344;}
+      50%{box-shadow:0 0 35px #ffeb3b55;}
+      100%{box-shadow:0 0 20px #00ffc344;}
+    }
+    .support {
+      margin-top: 40px;
+      font-weight: bold;
+      background: rgba(30,30,30,0.80);
+      display: inline-block;
+      padding: 13px 28px;
+      border-radius: 12px;
+      color: #00e676;
+      font-family: 'Orbitron', 'Vazirmatn', cursive, sans-serif;
+      font-size: 1.07em;
+      letter-spacing: 1.2px;
+      box-shadow: 0 0 10px #00e67644;
+      border: 2px solid #00ffc399;
+      margin-bottom: 18px;
+    }
+    .support a {
+      color: #ffeb3b;
+      text-decoration: none;
+      font-weight: bold;
+      font-family: inherit;
+      text-shadow: 0 0 6px #00e67677;
+      transition: color .18s;
+    }
+    .support a:hover {
+      color: #00ffc3;
+    }
+    .donate {
+      margin: 18px auto 48px auto;
+      display: inline-block;
+      background: rgba(0, 30, 36, 0.80);
+      color: #ffe066;
+      font-weight: bold;
+      font-family: 'Vazirmatn', 'Tahoma', cursive, sans-serif;
+      font-size: 1.08em;
+      letter-spacing: 1.1px;
+      padding: 14px 30px 10px 30px;
+      border-radius: 13px;
+      border: 2px solid #ffe066aa;
+      box-shadow: 0 0 12px #ffe06633;
+      text-align: center;
+      line-height: 2;
+    }
+    .donate .cardnum {
+      display: block;
+      font-size: 1.29em;
+      font-family: 'Orbitron',monospace;
+      color: #fff;
+      background: #222d;
+      padding: 7px 18px 6px 18px;
+      border-radius: 7px;
+      margin: 8px 0 0 0;
+      letter-spacing: 3px;
+      direction: ltr;
+      text-align: center;
+      user-select: all;
+    }
+    .donate .copybtn {
+      margin-top: 10px;
+      background: linear-gradient(90deg,#ffe066 0,#00e676 100%);
+      color: #222;
+      font-family: 'Vazirmatn', 'Orbitron', sans-serif;
+      font-size: 1em;
+      border: none;
+      border-radius: 7px;
+      padding: 7px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1.1px;
+      transition: background .18s, color .18s;
+      box-shadow: 0 0 8px #ffe06666;
+    }
+    .donate .copybtn:hover {
+      background: linear-gradient(90deg,#00e676 0,#ffe066 100%);
+      color: #000;
+    }
+    .mtu-test {
+      margin-bottom: 20px;
+      font-size: 1.01em;
+      background: #0c1614aa;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      border-radius: 8px;
+      padding: 7px 15px 7px 15px;
+      border: 1px solid #00ffc366;
+      box-shadow: 0 0 8px #00ffc344;
+      max-width: 420px;
+      margin-right: auto;
+      margin-left: auto;
+      font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+    }
+    .mtu-test button {
+      padding: 7px 18px;
+      font-size: 1em;
+      margin: 0 8px;
+      border-radius: 5px;
+      background: linear-gradient(90deg,#00e676 0,#ffeb3b 100%);
+      color: #222;
+      border: none;
+      font-family: inherit;
+      font-weight: bold;
+      letter-spacing: 1.1px;
+      cursor: pointer;
+      transition: background .13s;
+      box-shadow: 0 0 4px #00ffc344;
+    }
+    .mtu-test button:hover {
+      background: linear-gradient(90deg,#ffeb3b 0,#00e676 100%);
+      color: #000;
+    }
+    .mtu-test .mtu-show {
+      font-weight: bold;
+      color: #00ffc3;
+      font-size: 1.11em;
+      margin-right: 14px;
+      letter-spacing: 1.2px;
+      font-family: inherit;
+    }
+    @media (max-width: 600px) {
+      #configForm {padding: 9vw 2vw;}
+      h2 {font-size:1.4em;}
+      pre {font-size:.98em;}
+      .support, .donate, .mtu-test { font-size: .99em;}
+      .donate .cardnum {font-size:1.12em;}
+      .mtu-test {flex-direction:column;align-items:flex-start;gap:2px;}
+    }
+  </style>
+</head>
+<body>
+  <h2>ساخت فایل کانفیگ WireGuard</h2>
+  <form id="configForm">
+    <label for="country">انتخاب کشور:</label>
+    <select id="country" name="country" required>
+      <option value="">-- کشور را انتخاب کنید --</option>
+      <option value="UAE">امارات (UAE)</option>
+      <option value="Bahrain">بحرین (Bahrain)</option>
+      <option value="Qatar">قطر (Qatar)</option>
+      <option value="Germany">آلمان (Germany)</option>
+      <option value="Brazil">برزیل (Brazil)</option>
+      <option value="Russia">روسیه (Russia)</option>
+      <option value="Iran">ایران (Iran)</option>
+      <option value="USA">آمریکا (USA)</option>
+      <option value="Belgium">بلژیک (Belgium)</option>
+    </select>
+    <label for="mtu">انتخاب MTU:</label>
+    <div class="mtu-test">
+      <span>تست سرعت و دریافت MTU پیشنهادی:</span>
+      <button type="button" id="mtuTestBtn">تست سرعت</button>
+      <span class="mtu-show" id="mtuSuggest"></span>
+    </div>
+    <select id="mtu" name="mtu">
+      <option value="auto">خودکار (پیشنهادی)</option>
+      <option value="1280">1280</option>
+      <option value="1380">1380</option>
+      <option value="1472">1472</option>
+    </select>
+    <br><br>
+    <button type="submit">ساخت و دانلود کانفیگ</button>
+  </form>
+  <div id="result"></div>
+  <div class="support">
+    پشتیبانی <a href="https://t.me/vahidekhlasi" target="_blank">@vahidekhlasi</a>
+  </div>
+  <div class="donate">
+    <span>اگر این سرویس برای شما مفید بود از ما حمایت کنید 🙏</span>
+    <span class="cardnum" id="cardnum">6037&nbsp;9974&nbsp;6624&nbsp;8136</span>
+    <button class="copybtn" onclick="copyCardNum()">کپی شماره کارت</button>
+  </div>
+  <script>
+    const ipRanges = {
+      "UAE": [
+        ["94.200.0.0", "94.200.255.255"],
+        ["213.42.0.0", "213.42.255.255"]
+      ],
+      "Bahrain": [
+        ["37.131.0.0", "37.131.255.255"],
+        ["188.221.0.0", "188.221.255.255"]
+      ],
+      "Qatar": [
+        ["78.100.0.0", "78.100.255.255"],
+        ["212.77.192.0", "212.77.223.255"]
+      ],
+      "Germany": [
+        ["80.128.0.0", "80.128.255.255"],
+        ["91.0.0.0", "91.15.255.255"],
+        ["217.0.0.0", "217.23.255.255"]
+      ],
+      "Brazil": [
+        ["200.128.0.0", "200.135.255.255"],
+        ["201.6.0.0", "201.6.255.255"],
+        ["177.0.0.0", "177.255.255.255"]
+      ],
+      "Russia": [
+        ["5.128.0.0", "5.191.255.255"],
+        ["37.192.0.0", "37.255.255.255"],
+        ["62.16.0.0", "62.31.255.255"]
+      ],
+      "Iran": [
+        ["5.52.0.0", "5.55.255.255"],
+        ["37.32.0.0", "37.63.255.255"],
+        ["46.224.0.0", "46.239.255.255"]
+      ],
+      "USA": [
+        ["3.0.0.0", "3.255.255.255"],
+        ["4.0.0.0", "4.255.255.255"],
+        ["8.0.0.0", "8.255.255.255"]
+      ],
+      "Belgium": [
+        ["57.0.0.0", "57.255.255.255"],
+        ["78.20.0.0", "78.23.255.255"],
+        ["94.182.0.0", "94.182.255.255"]
+      ]
+    };
+    function ipToInt(ip) {
+      return ip.split('.').reduce((acc, octet) => acc * 256 + parseInt(octet), 0);
+    }
+    function intToIp(int) {
+      return [24,16,8,0].map(shift => (int >> shift) & 255).join('.');
+    }
+    function randomIpFromRange([start, end]) {
+      const startInt = ipToInt(start);
+      const endInt = ipToInt(end);
+      const randInt = startInt + Math.floor(Math.random() * (endInt - startInt + 1));
+      return intToIp(randInt);
+    }
+    function randomCountryIp(country) {
+      const ranges = ipRanges[country];
+      const selected = ranges[Math.floor(Math.random() * ranges.length)];
+      return randomIpFromRange(selected);
+    }
+    function randomBase64(len = 32) {
+      const arr = new Uint8Array(len);
+      window.crypto.getRandomValues(arr);
+      return btoa(String.fromCharCode.apply(null, arr));
+    }
+    function generateDnsList(n = 7) {
+      let out = [];
+      for(let i = 0; i < n; ++i)
+        out.push(`${Math.floor(Math.random()*255)+1}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*254)+1}`);
+      return out.join(', ');
+    }
+    function getRandomMainDns() {
+      const dnsOptions = ['10.202.10.10', '78.157.42.100'];
+      return dnsOptions[Math.floor(Math.random() * dnsOptions.length)];
+    }
+    function getRandomMtu() {
+      const mtuList = [1280, 1380, 1472];
+      return mtuList[Math.floor(Math.random() * mtuList.length)];
+    }
+    function generateConfig(country, mtuChoice) {
+      const privateKey = randomBase64();
+      const publicKey = randomBase64();
+      const presharedKey = randomBase64();
+      const address = randomCountryIp(country);
+      const dnsList = generateDnsList();
+      const mainDns = getRandomMainDns();
+      let mtu;
+      if (mtuChoice === "auto") {
+        mtu = getRandomMtu();
+      } else {
+        mtu = mtuChoice;
+      }
+      const endpointIp = randomCountryIp(country);
+      const endpointPort = Math.floor(Math.random()*55000)+10000;
+      return `[Interface]
+PrivateKey = ${privateKey}
+Address = ${address}/24
+DNS = ${mainDns}, ${dnsList}
+MTU = ${mtu}
+
+[Peer]
+PublicKey = ${publicKey}
+PresharedKey = ${presharedKey}
+Endpoint = ${endpointIp}:${endpointPort}
+PersistentKeepalive = 47
+`;
+    }
+    function downloadConfig(config, filename) {
+      let safeName = filename.replace(/\.conf(\..*)?$/, ".conf");
+      if(!safeName.endsWith('.conf')) safeName += ".conf";
+      const blob = new Blob([config], {type: 'application/octet-stream'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = safeName;
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+        link.remove();
+      }, 100);
+    }
+    document.getElementById('configForm').onsubmit = function(e) {
+      e.preventDefault();
+      const country = document.getElementById('country').value;
+      const mtuChoice = document.getElementById('mtu').value;
+      if(!country){
+        alert('لطفا کشور را انتخاب کنید!');
+        return;
+      }
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = "در حال ساخت ...";
+      setTimeout(()=>{
+        const config = generateConfig(country, mtuChoice);
+        const filename = `wg_${country.toLowerCase()}_${Math.floor(Math.random()*90000+10000)}.conf`;
+        resultDiv.innerHTML = `
+          <pre>${config}</pre>
+          <button id="dlbtn">دانلود فایل کانفیگ</button>
+        `;
+        document.getElementById('dlbtn').onclick = ()=>downloadConfig(config, filename);
+      }, 700);
+    };
+
+    // Copy card number to clipboard
+    function copyCardNum() {
+      const card = "6037997466248136";
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(card).then(function() {
+          alert("شماره کارت کپی شد!");
+        }, function() {
+          fallbackCopy(card);
+        });
+      } else {
+        fallbackCopy(card);
+      }
+    }
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        alert("شماره کارت کپی شد!");
+      } catch(e) {
+        alert("کپی نشد. دستی کپی کنید.");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // MTU Test - improved and CORS-safe for GitHub Pages
+    document.getElementById('mtuTestBtn').onclick = async function() {
+      const mtuSuggest = document.getElementById('mtuSuggest');
+      mtuSuggest.textContent = "در حال تست سرعت...";
+      const testFiles = [
+        {url: "https://speed.hetzner.de/1MB.bin?t="+Math.random(), size: 1048576},
+        {url: "https://ipv4.download.thinkbroadband.com/512KB.zip?t="+Math.random(), size: 524288}
+      ];
+      let totalSize = 0, totalTime = 0, ok = 0;
+      for (let f of testFiles) {
+        try {
+          const t0 = Date.now();
+          const resp = await fetch(f.url, {cache:'no-store'});
+          const blob = await resp.blob();
+          if (blob.size < f.size*0.7) continue; // فایل باید کامل باشد
+          const t1 = Date.now();
+          totalSize += f.size; // حجم فایل تستی
+          totalTime += (t1-t0)/1000.0;
+          ok++;
+        } catch (e) {
+          // فایل تست کار نکرد، ادامه
+        }
+      }
+      if (ok === 0) {
+        mtuSuggest.textContent = "تست سرعت انجام نشد. اتصال اینترنت یا VPN را بررسی کنید.";
+        return;
+      }
+      const downloadMbps = (totalSize * 8) / (totalTime * 1e6);
+      let mtuMsg, mtuVal;
+      if (downloadMbps < 5) {
+        mtuMsg = "MTU پیشنهادی: 1280 (اینترنت کم‌سرعت)";
+        mtuVal = "1280";
+      } else if (downloadMbps < 30) {
+        mtuMsg = "MTU پیشنهادی: 1380 (اینترنت متوسط)";
+        mtuVal = "1380";
+      } else {
+        mtuMsg = "MTU پیشنهادی: 1472 (اینترنت پرسرعت)";
+        mtuVal = "1472";
+      }
+      mtuSuggest.textContent = `↓ سرعت دانلود: ${downloadMbps.toFixed(1)} Mbps، ${mtuMsg}`;
+      document.getElementById('mtu').value = mtuVal;
+    };
+  </script>
+</body>
+</html>

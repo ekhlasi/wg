@@ -65,7 +65,7 @@
       font-weight: bold;
       padding: 12px 13px 11px 13px;
       margin: 18px auto 5px auto;
-      max-width: 470px;
+      max-width: 480px;
       border-radius: 11px;
       box-shadow: 0 2px 10px #ffd70033, 0 0 0 2px #fffbe188;
       font-size: 1.09em;
@@ -322,10 +322,11 @@
     <div class="vip-desc">ساخت و دریافت کانفیگ ویژه و سریع WireGuard برای کاربران خاص و حرفه‌ای</div>
   </div>
   <div class="attention">
-    📱 <strong>توجه مهم:</strong> فایل کانفیگ فقط با <b>.conf</b> دانلود و ذخیره می‌شود.<br>
-    حتماً پسوند فایل را تغییر ندهید و اگر فایل با نام دیگری ذخیره شد، پسوند آن را به <b>.conf</b> تغییر دهید.<br>
-    در تلگرام: روی سه‌نقطه بالا بزنید و "<strong>Open in Browser</strong>" را انتخاب کنید تا دانلود درست انجام شود.<br>
-    همچنین می‌توانید با دکمه <b>کپی کانفیگ</b>، متن را مستقیماً در اپ وایرگارد پیست کنید.
+    📢 <strong>توجه مهم:</strong> <br>
+    فایل کانفیگ باید با <b>.conf</b> دانلود و ذخیره شود.<br>
+    اگر فایل با پسوند <b>.txt</b> یا هر چیز دیگر دانلود شد، <span style="color:#d23c00;">خودتان پسوند آن را به <b>.conf</b> تغییر دهید</span>.<br>
+    (مثال: <b>wg_usa_xxxxx.conf</b>)<br>
+    <span style="color:#b28800;">در تلگرام: سه‌نقطه بالا &gt; Open in Browser</span>
   </div>
   <div class="download-apps">
     <a class="download-btn" href="https://play.google.com/store/apps/details?id=com.wireguard.android" target="_blank" rel="noopener">
@@ -438,17 +439,19 @@ PersistentKeepalive = 47
 `;
   }
   function downloadConfig(config, filename) {
-    // تاکید: فقط با پسوند conf دانلود شود
-    let safeName = filename.replace(/\.[^\.]+$/, ".conf");
-    if(!safeName.endsWith(".conf")) safeName += ".conf";
-    const blob = new Blob([config], {type: 'text/plain'});
-    const url = window.URL || window.webkitURL;
+    // همیشه و فقط با conf ذخیره شود
+    let safeName = filename.replace(/\.[^\.]+$/, "") + ".conf";
+    const blob = new Blob([config], {type: 'application/octet-stream'});
+    const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url.createObjectURL(blob);
+    link.href = url;
     link.download = safeName;
     document.body.appendChild(link);
     link.click();
-    setTimeout(()=>{document.body.removeChild(link);}, 200);
+    setTimeout(()=> {
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    }, 200);
   }
   document.getElementById('mtuType').onchange=function(){
     document.getElementById('manualMtuDiv').style.display = this.value==="manual"?"block":"none";

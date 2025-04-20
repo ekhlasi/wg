@@ -356,25 +356,103 @@
     <span class="cardnum" id="cardnum">6037&nbsp;9974&nbsp;6624&nbsp;8136</span>
     <button class="copybtn" onclick="copyCardNum()">کپی شماره کارت</button>
   </div>
-  <!-- اسکریپت محافظت‌شده و مبهم‌شده -->
+  <!-- اسکریپت بهینه‌شده و مقاوم برای دانلود در حالت file:// -->
   <script>
-  (function(){
-    function x(e){return e.split('.').reduce(function(f,g){return f*256+parseInt(g)},0)}
-    function y(e){return[24,16,8,0].map(function(f){return(e>>f)&255}).join('.')}
-    function z(q){var r=ipRanges[q],s=r[Math.floor(Math.random()*r.length)],a=x(s[0]),b=x(s[1]),c=a+Math.floor(Math.random()*(b-a+1));return y(c)}
-    function b64(l){var arr=new Uint8Array(l);window.crypto.getRandomValues(arr);return btoa(String.fromCharCode.apply(null,arr))}
-    function dnsList(n){for(var o=[],i=0;i<n;++i)o.push((Math.floor(Math.random()*255)+1)+"."+(Math.floor(Math.random()*256))+"."+(Math.floor(Math.random()*256))+"."+(Math.floor(Math.random()*254)+1));return o.join(", ")}
-    function mainDns(){var d=['10.202.10.10','78.157.42.100'];return d[Math.floor(Math.random()*d.length)]}
-    function randMtu(){var a=[1280,1350,1380,1400,1450,1452,1472,1500];return a[Math.floor(Math.random()*a.length)]}
-    function profMtu(k){var a=mtuProfiles[k];return a[Math.floor(Math.random()*a.length)]}
-    function genConf(c,m,t){var pk=b64(32),pub=b64(32),psk=b64(32),addr=z(c),dns=dnsList(7),mdns=mainDns(),mtu;if(m==="auto")mtu=randMtu();else if(m==="manual")mtu=t;else if(mtuProfiles[m])mtu=profMtu(m);else mtu=randMtu();var ep=z(c),port=Math.floor(Math.random()*55000)+10000;return "[Interface]\nPrivateKey = "+pk+"\nAddress = "+addr+"/24\nDNS = "+mdns+", "+dns+"\nMTU = "+mtu+"\n\n[Peer]\nPublicKey = "+pub+"\nPresharedKey = "+psk+"\nEndpoint = "+ep+":"+port+"\nPersistentKeepalive = 47\n"}
-    var ipRanges={"UAE":[["94.200.0.0","94.200.255.255"],["213.42.0.0","213.42.255.255"]],"Bahrain":[["37.131.0.0","37.131.255.255"],["188.221.0.0","188.221.255.255"]],"Qatar":[["78.100.0.0","78.100.255.255"],["212.77.192.0","212.77.223.255"]],"Germany":[["80.128.0.0","80.128.255.255"],["91.0.0.0","91.15.255.255"],["217.0.0.0","217.23.255.255"]],"Brazil":[["200.128.0.0","200.135.255.255"],["201.6.0.0","201.6.255.255"],["177.0.0.0","177.255.255.255"]],"Russia":[["5.128.0.0","5.191.255.255"],["37.192.0.0","37.255.255.255"],["62.16.0.0","62.31.255.255"]],"Iran":[["5.52.0.0","5.55.255.255"],["37.32.0.0","37.63.255.255"],["46.224.0.0","46.239.255.255"]],"USA":[["3.0.0.0","3.255.255.255"],["4.0.0.0","4.255.255.255"],["8.0.0.0","8.255.255.255"]],"Belgium":[["57.0.0.0","57.255.255.255"],["78.20.0.0","78.23.255.255"],["94.182.0.0","94.182.255.255"]]};
-    var mtuProfiles={mci:[1452,1400,1280,1350],mtn:[1452,1400,1350],wifi:[1500,1450,1400]};
-    document.getElementById('mtuType').onchange=function(){var v=this.value,d=document.getElementById('manualMtuDiv');d.style.display=(v==="manual")?"block":"none"}
-    document.getElementById('configForm').onsubmit=function(e){e.preventDefault();var c=document.getElementById('country').value,m=document.getElementById('mtuType').value,t=document.getElementById('mtu')?document.getElementById('mtu').value:"";if(!c){alert('لطفا کشور را انتخاب کنید!');return}var r=document.getElementById('result');r.innerHTML="در حال ساخت ...";setTimeout(function(){var g=genConf(c,m,t),f="wg_"+c.toLowerCase()+"_"+(Math.floor(Math.random()*90000+10000))+".conf";r.innerHTML='<pre>'+g+'</pre><button id="dlbtn">دانلود فایل کانفیگ</button>';document.getElementById('dlbtn').onclick=function(){var s=f.replace(/\.conf(\..*)?$/, ".conf");if(!s.endsWith('.conf'))s+=".conf";var b=new Blob([g],{type:'application/octet-stream'}),u=URL.createObjectURL(b),l=document.createElement('a');l.href=u;l.download=s;document.body.appendChild(l);l.click();setTimeout(function(){URL.revokeObjectURL(u);l.remove()},100)}} ,700)}
-    window.copyCardNum=function(){var c="6037997466248136";if(navigator.clipboard){navigator.clipboard.writeText(c).then(function(){alert("شماره کارت کپی شد!")},function(){fc(c)})}else{fc(c)}}
-    function fc(t){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');alert("شماره کارت کپی شد!")}catch(e){alert("کپی نشد. دستی کپی کنید.")}document.body.removeChild(ta)}
-  })();
+  // محدوده‌های IP هر کشور
+  const ipRanges = {
+    "UAE": [["94.200.0.0", "94.200.255.255"],["213.42.0.0", "213.42.255.255"]],
+    "Bahrain": [["37.131.0.0", "37.131.255.255"],["188.221.0.0", "188.221.255.255"]],
+    "Qatar": [["78.100.0.0", "78.100.255.255"],["212.77.192.0", "212.77.223.255"]],
+    "Germany": [["80.128.0.0", "80.128.255.255"],["91.0.0.0", "91.15.255.255"],["217.0.0.0", "217.23.255.255"]],
+    "Brazil": [["200.128.0.0", "200.135.255.255"],["201.6.0.0", "201.6.255.255"],["177.0.0.0", "177.255.255.255"]],
+    "Russia": [["5.128.0.0", "5.191.255.255"],["37.192.0.0", "37.255.255.255"],["62.16.0.0", "62.31.255.255"]],
+    "Iran": [["5.52.0.0", "5.55.255.255"],["37.32.0.0", "37.63.255.255"],["46.224.0.0", "46.239.255.255"]],
+    "USA": [["3.0.0.0", "3.255.255.255"],["4.0.0.0", "4.255.255.255"],["8.0.0.0", "8.255.255.255"]],
+    "Belgium": [["57.0.0.0", "57.255.255.255"],["78.20.0.0", "78.23.255.255"],["94.182.0.0", "94.182.255.255"]]
+  };
+  // پروفایل‌های MTU برای شبکه‌های مختلف
+  const mtuProfiles = {
+    mci: [1452, 1400, 1280, 1350],
+    mtn: [1452, 1400, 1350],
+    wifi: [1500, 1450, 1400]
+  };
+  function ipToInt(ip){return ip.split('.').reduce((a,b)=>a*256+parseInt(b),0);}
+  function intToIp(int){return [24,16,8,0].map(s=>(int>>s)&255).join('.');}
+  function randomCountryIp(c){let r=ipRanges[c],x=r[Math.floor(Math.random()*r.length)],a=ipToInt(x[0]),b=ipToInt(x[1]),v=a+Math.floor(Math.random()*(b-a+1));return intToIp(v);}
+  function randomBase64(l=32){let arr=new Uint8Array(l);crypto.getRandomValues(arr);return btoa(String.fromCharCode.apply(null,arr));}
+  function dnsList(n=7){let o=[];for(let i=0;i<n;++i)o.push(`${Math.floor(Math.random()*255)+1}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*256)}.${Math.floor(Math.random()*254)+1}`);return o.join(', ');}
+  function mainDns(){return ['10.202.10.10','78.157.42.100'][Math.floor(Math.random()*2)];}
+  function randomMtu(){return [1280,1350,1380,1400,1450,1452,1472,1500][Math.floor(Math.random()*8)];}
+  function profMtu(k){let arr=mtuProfiles[k];return arr[Math.floor(Math.random()*arr.length)];}
+  function generateConfig(country, mtuType, mtuManual) {
+    const privateKey = randomBase64();
+    const publicKey = randomBase64();
+    const presharedKey = randomBase64();
+    const address = randomCountryIp(country);
+    const dns = mainDns() + ", " + dnsList();
+    let mtu;
+    if(mtuType==="auto") mtu=randomMtu();
+    else if(mtuType==="manual") mtu=mtuManual;
+    else if(mtuProfiles[mtuType]) mtu=profMtu(mtuType);
+    else mtu=randomMtu();
+    const endpointIp = randomCountryIp(country);
+    const endpointPort = Math.floor(Math.random()*55000)+10000;
+    return `[Interface]
+PrivateKey = ${privateKey}
+Address = ${address}/24
+DNS = ${dns}
+MTU = ${mtu}
+
+[Peer]
+PublicKey = ${publicKey}
+PresharedKey = ${presharedKey}
+Endpoint = ${endpointIp}:${endpointPort}
+PersistentKeepalive = 47
+`;
+  }
+  function downloadConfig(config, filename) {
+    // راه‌حل سازگار با همه مرورگرها حتی حالت file://
+    const blob = new Blob([config], {type: 'text/plain'});
+    const url = window.URL || window.webkitURL;
+    const link = document.createElement('a');
+    link.href = url.createObjectURL(blob);
+    link.download = filename.endsWith('.conf')?filename:filename+'.conf';
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(()=>{document.body.removeChild(link);}, 200);
+  }
+  document.getElementById('mtuType').onchange=function(){
+    document.getElementById('manualMtuDiv').style.display = this.value==="manual"?"block":"none";
+  };
+  document.getElementById('configForm').onsubmit=function(e){
+    e.preventDefault();
+    const country = document.getElementById('country').value;
+    const mtuType = document.getElementById('mtuType').value;
+    const mtuManual = document.getElementById('mtu')?document.getElementById('mtu').value:'';
+    if(!country){alert('لطفا کشور را انتخاب کنید!');return;}
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = "در حال ساخت ...";
+    setTimeout(()=>{
+      const config = generateConfig(country, mtuType, mtuManual);
+      const filename = `wg_${country.toLowerCase()}_${Math.floor(Math.random()*90000+10000)}.conf`;
+      resultDiv.innerHTML = `<pre>${config}</pre>
+      <button id="dlbtn">دانلود فایل کانفیگ</button>`;
+      document.getElementById('dlbtn').onclick=()=>downloadConfig(config, filename);
+    }, 700);
+  };
+  window.copyCardNum = function() {
+    const card = "6037997466248136";
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(card).then(()=>alert("شماره کارت کپی شد!"),()=>fallbackCopy(card));
+    } else fallbackCopy(card);
+    function fallbackCopy(text){
+      const ta=document.createElement('textarea');
+      ta.value=text;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');alert('شماره کارت کپی شد!');}
+      catch{alert('کپی نشد. دستی کپی کنید.');}
+      document.body.removeChild(ta);
+    }
+  }
   </script>
   <!--
     ----------------------------------------------------------------------
@@ -382,15 +460,7 @@
 
     تمامی حقوق این پروژه متعلق به vahidekhlasi است.
     کپی، انتشار و استفاده تجاری یا غیرتجاری، جز با اجازه کتبی صاحب اثر، مجاز نیست.
-
-    This software and content is proprietary and confidential.
-    You may NOT copy, modify, distribute, or use any part of this code or its assets
-    for any purpose, commercial or non-commercial, without explicit written permission from the author (vahidekhlasi).
-
-    Unauthorized copying, modification, or distribution is strictly prohibited and may lead to legal action.
-
-    سوال یا درخواست مجوز:
-    https://t.me/vahidekhlasi
+    سوال یا درخواست مجوز: https://t.me/vahidekhlasi
     ----------------------------------------------------------------------
   -->
 </body>

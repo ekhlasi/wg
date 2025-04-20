@@ -58,6 +58,9 @@
       text-shadow: 0 0 6px #282d3388;
       font-weight: 500;
     }
+    .attention {
+      background:#fffae1;border:1px solid #ffd700;color:#b28800;font-weight:bold;padding:8px 10px;margin:15px auto 0;max-width:360px;border-radius:9px;box-shadow:0 1px 6px #0001;font-size:.98em;
+    }
     .download-apps {
       margin: 24px auto 0 auto;
       display: flex;
@@ -109,6 +112,7 @@
       .download-apps {gap:8px;}
       .download-btn {font-size:.99em;padding:8px 12px;}
       .download-btn svg {width:22px;height:22px;}
+      .attention {max-width:98vw;}
     }
     #configForm {
       margin: 32px auto 18px;
@@ -199,7 +203,7 @@
       user-select: text;
       transition: box-shadow 0.2s;
     }
-    #dlbtn {
+    #dlbtn, #copybtn {
       display: inline-block;
       background: linear-gradient(90deg,#00ffc3 0,#ffeb3b 100%);
       color: #111;
@@ -216,7 +220,7 @@
       margin-top: 3px;
       transition: background 0.13s, transform .08s;
     }
-    #dlbtn:hover {
+    #dlbtn:hover, #copybtn:hover {
       background: linear-gradient(90deg,#ffeb3b 0,#00ffc3 100%);
       color: #000;
       transform: scale(1.04);
@@ -299,6 +303,10 @@
     <div class="vip-title">وایرگارد اختصاصی VIP</div>
     <div class="vip-desc">ساخت و دریافت کانفیگ ویژه و سریع WireGuard برای کاربران خاص و حرفه‌ای</div>
   </div>
+  <div class="attention">
+    📱 برای دانلود فایل، لطفاً صفحه را در مرورگر اصلی (مثل Chrome یا Safari) باز کنید.<br>
+    در تلگرام: روی سه‌نقطه بالا بزنید و "Open in Browser" را انتخاب کنید.
+  </div>
   <div class="download-apps">
     <a class="download-btn" href="https://play.google.com/store/apps/details?id=com.wireguard.android" target="_blank" rel="noopener">
       <svg viewBox="0 0 48 48"><g><circle cx="24" cy="24" r="24" fill="#3ddc84"/><path d="M12 35.7l19.1-8.9 4.1 1.7-18.7 8.8zm26.6-4.6c-.3-.4-.8-.7-1.2-.8l-5.5-2.3-4.9 2.3c-.4.2-.9.2-1.3 0l-2.1-1 13.7-6.5c.3-.2.4-.6.3-.9-.1-.3-.4-.5-.7-.6l-5.5-2.3-8.8 4.2c-.4.2-.9.2-1.3 0l-2.1-1 16.8-7.9c.3-.2.4-.6.3-.9-.1-.3-.4-.5-.7-.6l-19.3-8.2c-.4-.2-.9 0-1.1.4-.2.4 0 .9.4 1.1l2.1.8 5.5 2.2 8.8-4.2c.4-.2.9-.2 1.3 0l2.1 1-13.7 6.5c-.3.2-.4.6-.3.9.1.3.4.5.7.6l5.5 2.3 8.8-4.2c.4-.2.9-.2 1.3 0l2.1 1-16.8 7.9c-.3.2-.4.6-.3.9.1.3.4.5.7.6l19.3 8.2c.4.2.9 0 1.1-.4.2-.4 0-.9-.4-1.1z" fill="#fff"/></g></svg>
@@ -356,7 +364,6 @@
     <span class="cardnum" id="cardnum">6037&nbsp;9974&nbsp;6624&nbsp;8136</span>
     <button class="copybtn" onclick="copyCardNum()">کپی شماره کارت</button>
   </div>
-  <!-- اسکریپت بهینه‌شده و مقاوم برای دانلود در حالت file:// -->
   <script>
   // محدوده‌های IP هر کشور
   const ipRanges = {
@@ -436,8 +443,26 @@ PersistentKeepalive = 47
       const config = generateConfig(country, mtuType, mtuManual);
       const filename = `wg_${country.toLowerCase()}_${Math.floor(Math.random()*90000+10000)}.conf`;
       resultDiv.innerHTML = `<pre>${config}</pre>
-      <button id="dlbtn">دانلود فایل کانفیگ</button>`;
+      <button id="dlbtn">دانلود فایل کانفیگ</button>
+      <button id="copybtn" style="margin-right:10px;">کپی کانفیگ</button>`;
       document.getElementById('dlbtn').onclick=()=>downloadConfig(config, filename);
+      document.getElementById('copybtn').onclick=function(){
+        if(window.getSelection){
+          let pre = document.querySelector('#result pre');
+          let range = document.createRange();
+          range.selectNodeContents(pre);
+          let sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          try {
+            document.execCommand('copy');
+            alert('متن کانفیگ کپی شد!');
+          } catch(e) {
+            alert('کپی نشد! دستی متن را انتخاب و کپی کنید.');
+          }
+          sel.removeAllRanges();
+        }
+      }
     }, 700);
   };
   window.copyCardNum = function() {
